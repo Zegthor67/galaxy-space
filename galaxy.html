@@ -10,7 +10,7 @@
 
 <!-- ── Panel ──────────────────────────────────────────────────── -->
 <div id="panel">
-  <h2>✦ Galaxy</h2>
+  <h2>Controler</h2>
 
   <div class="ctrl">
     <div class="ctrl-hd"><span>Branches</span><span class="v" id="v-branches">3</span></div>
@@ -310,13 +310,25 @@ generateGalaxy();
    UI Wiring
 ═══════════════════════════════════════════════════════════════ */
 function wire(sliderId, valId, key, fmt) {
-  const sl = document.getElementById(sliderId);
-  const vl = document.getElementById(valId);
-  sl.addEventListener('input', () => {
+  const sl   = document.getElementById(sliderId);
+  const vl   = document.getElementById(valId);
+
+  const apply = () => {
     const v = parseFloat(sl.value);
     P[key]  = v;
     vl.textContent = fmt ? fmt(v) : v;
-  });
+  };
+
+  sl.addEventListener('input', apply);
+
+  // Scroll molette sur le bloc .ctrl entier
+  const ctrl = sl.closest('.ctrl') ?? sl;
+  ctrl.addEventListener('wheel', e => {
+    e.preventDefault();
+    const step = parseFloat(sl.step) || 1;
+    sl.value = parseFloat(sl.value) - Math.sign(e.deltaY) * step;
+    apply();
+  }, { passive: false });
 }
 
 wire('r-branches', 'v-branches', 'branches',   v => Math.round(v));

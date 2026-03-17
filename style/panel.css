@@ -47,6 +47,14 @@ canvas { display: block; }
   color: #6e85bc;
 }
 
+/* Le label devient interactif (drag style Blender) */
+.ctrl-hd span:first-child {
+  transition: color 0.15s;
+}
+.ctrl-hd span:first-child:hover {
+  color: #99b5ff;
+}
+
 .ctrl-hd .v { color: #aabfff; font-weight: 600; }
 
 /* Sliders */
